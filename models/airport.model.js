@@ -1,12 +1,17 @@
 const mongoose = require('mongoose')
 
-const Airport = mongoose.model (
-    "Airport",
-    new mongoose.Schema({
-        country: String,
-        terminals: [],
-        opened: Date,
-    })
-)
+const TerminalSchema = new mongoose.Schema({
+    name: String,
+    flights: [{type: mongoose.Schema.Types.ObjectId, ref: 'Flight'}],
+    capacity: Number
+})
 
-module.exports = Airport
+
+const AirportSchema = new mongoose.Schema({
+    name: String,
+    country: String,
+    terminals: [TerminalSchema],
+    opened: Date
+})   
+
+module.exports = mongoose.model('Airport', AirportSchema)
